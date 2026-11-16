@@ -1712,7 +1712,7 @@
       // ==========================================================================
       function startLotteryDraw() {
         if (state.students.length === 0) {
-          showToast("請先輸入至少一位學生姓名！", "⚠️");
+          showToast("請先輸入至少一位學生姓名", "⚠️");
           el.studentInput.focus();
           return;
         }
@@ -1758,11 +1758,11 @@
           const isFinalCountdown = progress >= 0.76;
 
           if (progress < 0.45) {
-            el.stagePhaseText.textContent = "第一階段：高速隨機洗牌中...";
-            el.progressHint.textContent = "打亂全部名單順序，確保絕對公平";
+            el.stagePhaseText.textContent = "隨機洗牌中...";
+            el.progressHint.textContent = "打亂全部名單順序";
             el.slotSubDisplay.textContent = state.daysCount > 1
-              ? `正在隨機配對 第 ${randomDay} 日 匯報人選...`
-              : "正在高速洗牌匯報先後次序...";
+              ? `正在隨機分配 第 ${randomDay} 日 匯報人選...`
+              : "正在洗牌匯報先後次序...";
             el.slotBox.classList.remove("final-tension");
           } else if (!isFinalCountdown) {
             el.stagePhaseText.textContent = "第二階段：鎖定各日名額與次序...";
@@ -1772,7 +1772,7 @@
               : "即將鎖定最終次序...";
             el.slotBox.classList.remove("final-tension");
           } else {
-            el.stagePhaseText.textContent = "🔥 最後倒數衝刺！即將揭曉！";
+            el.stagePhaseText.textContent = "🔥 最後倒數！即將揭曉！";
             el.progressHint.textContent = "屏息以待！";
             el.slotSubDisplay.textContent = "正在鎖定最終排程表...";
             el.slotBox.classList.add("final-tension");
@@ -1846,7 +1846,7 @@
           const titleWrap = document.createElement("div");
           const title = document.createElement("div");
           title.className = "day-card-title";
-          title.textContent = state.daysCount === 1 ? "📅 匯報先後次序表" : `📅 第 ${dayIdx + 1} 日匯報`;
+          title.textContent = state.daysCount === 1 ? "📅 匯報先後次序表" : `📅 第 ${dayIdx + 1} 日`;
 
           const dateSub = document.createElement("div");
           dateSub.className = "day-card-date";
@@ -1872,7 +1872,7 @@
             state.schedule[dayIdx] = shuffleArray(state.schedule[dayIdx]);
             soundEngine.playQuickShuffle();
             renderResultsGrid();
-            showToast(`已重新洗牌「第 ${dayIdx + 1} 日」的先後次序！`, "🔄");
+            showToast(`已重新洗牌「第 ${dayIdx + 1} 日」的先後次序`, "🔄");
           });
 
           actionsWrap.appendChild(countPill);
@@ -1972,10 +1972,10 @@
       function copyResultsToClipboard() {
         if (!state.schedule || state.schedule.length === 0) return;
 
-        const lines = ["【學生匯報抽籤排程結果】", ""];
+        const lines = ["【學生匯報抽籤結果】", ""];
         state.schedule.forEach((group, dIdx) => {
           const dayHeader = state.daysCount === 1
-            ? `◆ 匯報日 (${state.dayDates[dIdx] || ""}) - 共 ${group.length} 人`
+            ? `◆ 匯報日期 (${state.dayDates[dIdx] || ""}) - 共 ${group.length} 人`
             : `◆ 第 ${dIdx + 1} 日 (${state.dayDates[dIdx] || ""}) - 共 ${group.length} 人`;
           lines.push(dayHeader);
           group.forEach((stu, sIdx) => {
@@ -1994,7 +1994,7 @@
         tempArea.select();
         try {
           document.execCommand("copy");
-          showToast("已複製整齊排程文字，可直接貼上公告！", "📋");
+          showToast("已複製結果", "📋");
         } catch (err) {
           showToast("複製失敗，請手動選取文字複製", "⚠️");
         }
@@ -2025,12 +2025,12 @@
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `學生匯報抽籤排程_${new Date().toISOString().slice(0, 10)}.csv`;
+        link.download = `學生匯報抽籤結果_${new Date().toISOString().slice(0, 10)}.csv`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
-        showToast("已匯出 Excel 相容 CSV 檔案！", "📥");
+        showToast("已匯出 Excel 相容 CSV 檔案", "📥");
       }
 
       // ==========================================================================
@@ -2045,7 +2045,7 @@
             el.soundIcon.textContent = "🔊";
             el.soundLabel.textContent = "音效開啟";
             soundEngine.playTick(0.8, false);
-            showToast("已開啟緊張抽籤音效", "🔊");
+            showToast("開啟音效", "🔊");
           } else {
             soundEngine.stopTensionPad();
             el.soundToggleBtn.className = "btn-header sound-muted";
@@ -2063,7 +2063,7 @@
             el.sidebarToggleText.textContent = "顯示設定欄";
           } else {
             el.settingsSidebar.classList.remove("hidden");
-            el.sidebarToggleText.textContent = "投影模式 (隱藏設定)";
+            el.sidebarToggleText.textContent = "全螢幕";
           }
         });
 
